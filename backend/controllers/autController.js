@@ -20,15 +20,59 @@ export const register = async (req, res) => {
 
     res.status(200).json({ success: true, message: "Successfully created" });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to create. Please try again." });
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to create. Please try again." });
   }
 };
 
 // user login
 export const login = async (req, res) => {
+  const email = req.body.email;
+
   try {
-    // Add code for user login
+    const user = await User.findOne({ email });
+
+    //if user doest exist
+    if (!user) {
+      returnres.status(404).json({ success: false, essage: "User not found" });
+    }
+
+    // if user exist then check the paswordor compare the password
+    const checkCorrectPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+
+    //  if password is incorrect ()
+
+    if (!checkCorrectPassword) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Incorrect email or password" });
+    }
+    const { password, role, ...rest } = user._doc;
+
+    // create jwt token
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "15days" }
+    );
+
+    // set token in the browser cookies and send the response to the client
+    res
+      .cookie("acessToken", token, {
+        httpOnly: true,
+        expires: token.expiresIn,
+      })
+      .status(200)
+      .json({
+        token,
+        data: { ...rest },
+        role,
+      });
   } catch (error) {
-    // Handle error
+    res.status(500).json({ success: false, message: "failed to login" });
   }
 };
