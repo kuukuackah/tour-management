@@ -95,7 +95,7 @@ const year= new Date().getFullYear()
                          
                 <ListGroupItem className="ps-0 border-0 d-flex align-items-center gap-3">
                   <h6 className="mb-0 d-flex align-items-center gap-2">
-                    <span><i class="ri-map-pin-line"></i></span>
+                    <span><i className="ri-map-pin-line"></i></span>
                     Adress:
                   </h6> 
                   <p className="mb-0">cape coast, Ghana</p>
@@ -113,7 +113,7 @@ const year= new Date().getFullYear()
                          
                 <ListGroupItem className="ps-0 border-0 d-flex align-items-center gap-3">
                   <h6 className="mb-0 d-flex align-items-center gap-2">
-                    <span><i class="ri-phone-fill"></i></span>
+                    <span><i className="ri-phone-fill"></i></span>
                     Phone:
                   </h6> 
                   <p className="mb-0">+233595527738</p>

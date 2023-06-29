@@ -1,24 +1,64 @@
-import Booking from "../models/Booking.js";
+import Booking from "../models/Booking.js"
 
+
+// create new booking
 export const createBooking = async (req, res) => {
   const newBooking = new Booking(req.body);
 
   try {
-    newBooking.save;
-    const savedBooking = await newBooking.save();
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "your tour is booked",
-        data: savedBooking
-      });
-  } catch (error) {
-    res
-    .status(500)
-    .json({
+    const savedBooking = await newBooking.save()
+    res.status(200).json({
       success: true,
-      message: "internal sever error"
+      message: "Your tour is booked",
+      data:savedBooking
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error"
     });
   }
-};
+}; 
+
+//get singl booking
+
+export const getBooking = async(req,res)=>{
+  const id = req.params.id
+
+  try {
+    const book = await Booking.findById(id)
+
+    res.status(200).json({
+      success: true,
+      message: "successful",
+      data:book,
+    });
+  } catch (error) {
+    
+    res.status(404).json({
+      success: false,
+      message: "not found"
+    });
+  }
+}
+
+//get all booking
+
+export const getAllBooking = async(req,res)=>{
+
+  try {
+    const books = await Booking.find()
+
+    res.status(200).json({
+      success: true,
+      message: "successful",
+      data:books,
+    });
+  } catch (error) {
+    
+    res.status(500).json({
+      success: false,
+      message: "internal server error"
+    });
+  }
+}

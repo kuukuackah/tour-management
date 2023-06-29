@@ -38,7 +38,7 @@ export const login = async (req, res) => {
       returnres.status(404).json({ success: false, essage: "User not found" });
     }
 
-    // if user exist then check the paswordor compare the password
+    // if user exist then check the pasword or compare the password
     const checkCorrectPassword = await bcrypt.compare(
       req.body.password,
       user.password

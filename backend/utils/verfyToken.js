@@ -6,19 +6,19 @@ const verifyToken = (req, res, next) => {
   if (!token) {
     return res
       .status(401)
-      .json({ sucess: false, message: "you're not authorised" });
+      .json({ success: false, message: "you're not authorised" });
   }
 
-  // if token exist then verify the token
-  jwt.verify(token, proces.env.JWT_SECRET_KEY, (err, user) => {
+  // if token exists, then verify the token
+  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
     if (err) {
       return res
         .status(401)
-        .json({ sucess: false, message: "token is invalid" });
+        .json({ success: false, message: "token is invalid" });
     }
 
     req.user = user;
-    next(); // dont forget to call next
+    next(); // don't forget to call next
   });
 };
 
@@ -27,10 +27,9 @@ export const verifyUser = (req, res, next) => {
     if (req.user.id === req.params.id || req.user.role === "admin") {
       next();
     } else {
-        return
       res
         .status(401)
-        .json({ sucess: false, message: "you are not authenticated" });
+        .json({ success: false, message: "you are not authenticated" });
     }
   });
 };
@@ -40,10 +39,9 @@ export const verifyAdmin = (req, res, next) => {
     if (req.user.role === "admin") {
       next();
     } else {
-        return
       res
         .status(401)
-        .json({ sucess: false, message: "you are not authorized" });
+        .json({ success: false, message: "you are not authorized" });
     }
   });
 };
