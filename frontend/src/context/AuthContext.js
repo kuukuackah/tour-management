@@ -12,30 +12,27 @@ const AuthReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN_START":
       return {
-        user: localStorage.getItem('user') !==undefined ? JSON.parse(localStorage.getItem('user')):null,
-        loading: false,
+        ...state,
+        loading: true,
         error: null,
       };
     case "LOGIN_SUCCESS":
       return {
+        ...state,
         user: action.payload,
-        loading: true,
+        loading: false,
         error: null,
       };
     case "LOGIN_FAILURE":
       return {
+        ...state,
         user: null,
-        loading: true,
+        loading: false,
         error: action.payload,
       };
-    case "REGISTER_SUCESSFUL":
+    case "LOGOUT":
       return {
-        user: null,
-        loading: true,
-        error: null,
-      };
-    case "REGISTER_SUCESSFUL":
-      return {
+        ...state,
         user: null,
         loading: false,
         error: null,
@@ -51,6 +48,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(state.user));
   }, [state.user]);
+
   return (
     <AuthContext.Provider
       value={{
